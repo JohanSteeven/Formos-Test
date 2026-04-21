@@ -1,6 +1,12 @@
 import java.util.EnumMap;
 import java.util.Map;
 
+/**
+ * Centralized recipe calculator for 300 ml drinks.
+ *
+ * <p>The service converts business recipe rules into exact inventory
+ * consumption amounts per flavor.</p>
+ */
 public class RecipeService {
     public static final int DRINK_SIZE_ML = 300;
 
@@ -14,6 +20,13 @@ public class RecipeService {
     private static final int BANANA_PER_DRINK_G = 180;
     private static final int MANGO_PER_DRINK_G = 210;
 
+    /**
+     * Returns required ingredients for one drink of the requested flavor.
+     *
+     * @param flavor flavor to prepare
+     * @return ingredient amounts required for exactly one 300 ml drink
+     * @throws IllegalArgumentException when flavor is not supported
+     */
     public Map<Ingredient, Integer> getRequirementsForDrink(DrinkFlavor flavor) {
         EnumMap<Ingredient, Integer> requirements = new EnumMap<>(Ingredient.class);
         requirements.put(Ingredient.BLENDED_FRUIT_BASE, BLENDED_FRUIT_BASE_PER_DRINK_ML);

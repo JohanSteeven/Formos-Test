@@ -1,7 +1,18 @@
 import java.util.Scanner;
 
+/**
+ * Entry point for the street vendor drink inventory console application.
+ *
+ * <p>This class owns the text menu loop and delegates business behavior to
+ * service and domain classes.</p>
+ */
 public class Main {
 
+    /**
+     * Starts the application.
+     *
+     * @param args command-line arguments (not used)
+     */
     public static void main(String[] args) {
         Inventory inventory = Inventory.createWithDefaultStock();
         RecipeService recipeService = new RecipeService();
@@ -10,7 +21,7 @@ public class Main {
         // Initial stock values are assumptions for this coding test and are centralized in Inventory.
         try (Scanner scanner = new Scanner(System.in)) {
             boolean running = true;
-            System.out.println("Street Vendor Drink Sales Console");
+            System.out.println("Street Vendor Drink Sales");
 
             while (running) {
                 printMenu();
@@ -34,6 +45,9 @@ public class Main {
         }
     }
 
+    /**
+     * Prints the main menu options.
+     */
     private static void printMenu() {
         System.out.println();
         System.out.println("1. Show inventory");
@@ -41,12 +55,27 @@ public class Main {
         System.out.println("3. Exit");
     }
 
+    /**
+     * Displays the current stock levels for all ingredients.
+     *
+     * @param inventory current inventory state
+     */
     private static void showInventory(Inventory inventory) {
         System.out.println();
         System.out.println("Current Inventory:");
         System.out.print(inventory.formatStock());
     }
 
+    /**
+     * Handles the menu flow for selling one drink.
+     *
+     * <p>The method prompts for flavor selection, executes the sale, and prints
+     * either a success summary (with updated inventory) or a detailed shortage message.</p>
+     *
+     * @param scanner scanner used for reading user input
+     * @param salesService sales use case service
+     * @param inventory current inventory state
+     */
     private static void sellDrink(Scanner scanner, SalesService salesService, Inventory inventory) {
         System.out.println();
         System.out.println("Choose drink flavor:");

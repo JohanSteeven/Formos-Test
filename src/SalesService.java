@@ -1,15 +1,33 @@
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Application service for the "sell one drink" use case.
+ *
+ * <p>This class validates stock, consumes ingredients on success,
+ * and builds user-friendly sale results.</p>
+ */
 public class SalesService {
     private final Inventory inventory;
     private final RecipeService recipeService;
 
+    /**
+     * Creates the sales service.
+     *
+     * @param inventory inventory dependency used for checks and updates
+     * @param recipeService recipe dependency used to calculate requirements
+     */
     public SalesService(Inventory inventory, RecipeService recipeService) {
         this.inventory = inventory;
         this.recipeService = recipeService;
     }
 
+    /**
+     * Attempts to sell one 300 ml drink of the given flavor.
+     *
+     * @param flavor requested flavor
+     * @return success result when stock is enough, otherwise failure with shortages
+     */
     public SaleResult sellDrink(DrinkFlavor flavor) {
         Map<Ingredient, Integer> requiredIngredients = recipeService.getRequirementsForDrink(flavor);
         List<IngredientShortage> shortages = inventory.findShortages(requiredIngredients);
@@ -27,6 +45,9 @@ public class SalesService {
         return SaleResult.success(successMessage);
     }
 
+    /**
+     * Creates a detailed failure message listing each insufficient ingredient.
+     */
     private String buildFailureMessage(DrinkFlavor flavor, List<IngredientShortage> shortages) {
         StringBuilder message = new StringBuilder();
         message.append("Sale rejected: insufficient ingredients for ")

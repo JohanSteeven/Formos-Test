@@ -1,9 +1,26 @@
 import java.util.Scanner;
 
+/**
+ * Utility helpers for robust console input reading.
+ */
 public final class ConsoleInput {
+    /**
+     * Prevents instantiation of utility class.
+     */
     private ConsoleInput() {
     }
 
+    /**
+     * Reads an integer from input and validates it falls within a closed range.
+     *
+     * <p>The method keeps prompting until valid input is provided.</p>
+     *
+     * @param scanner scanner used to read from standard input
+     * @param prompt text shown before each input attempt
+     * @param minInclusive minimum accepted value
+     * @param maxInclusive maximum accepted value
+     * @return a valid integer in the requested range
+     */
     public static int readIntInRange(Scanner scanner, String prompt, int minInclusive, int maxInclusive) {
         while (true) {
             System.out.print(prompt);

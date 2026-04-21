@@ -4,6 +4,12 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * In-memory inventory for all ingredients used by the vendor.
+ *
+ * <p>This class centralizes stock initialization, stock querying,
+ * shortage detection, and stock consumption.</p>
+ */
 public class Inventory {
     // Assumption: initial values are reasonable defaults for a small street vendor shift.
     private static final int INITIAL_BLENDED_FRUIT_BASE_ML = 5_000;
@@ -16,10 +22,20 @@ public class Inventory {
 
     private final EnumMap<Ingredient, Integer> stockLevels;
 
+    /**
+     * Creates an empty inventory instance.
+     *
+     * <p>Use {@link #createWithDefaultStock()} to build a ready-to-use inventory.</p>
+     */
     private Inventory() {
         this.stockLevels = new EnumMap<>(Ingredient.class);
     }
 
+    /**
+     * Creates inventory with hardcoded default stock values.
+     *
+     * @return inventory preloaded with initial quantities
+     */
     public static Inventory createWithDefaultStock() {
         Inventory inventory = new Inventory();
         inventory.stockLevels.put(Ingredient.BLENDED_FRUIT_BASE, INITIAL_BLENDED_FRUIT_BASE_ML);
@@ -32,15 +48,32 @@ public class Inventory {
         return inventory;
     }
 
+    /**
+     * Returns available stock for one ingredient.
+     *
+     * @param ingredient ingredient to query
+     * @return available amount, or 0 if not present
+     */
     public int getAmount(Ingredient ingredient) {
         Integer amount = stockLevels.get(ingredient);
         return amount == null ? 0 : amount;
     }
 
+    /**
+     * Returns a read-only snapshot of the current stock.
+     *
+     * @return immutable map copy of current stock levels
+     */
     public Map<Ingredient, Integer> snapshot() {
         return Collections.unmodifiableMap(new EnumMap<>(stockLevels));
     }
 
+    /**
+     * Validates required ingredients against current stock and returns all shortages.
+     *
+     * @param requiredIngredients ingredient amounts required for a sale
+     * @return list of shortages; empty when stock is sufficient
+     */
     public List<IngredientShortage> findShortages(Map<Ingredient, Integer> requiredIngredients) {
         List<IngredientShortage> shortages = new ArrayList<>();
 
@@ -57,6 +90,13 @@ public class Inventory {
         return shortages;
     }
 
+    /**
+     * Deducts ingredient amounts from current stock.
+     *
+     * <p>Callers are expected to validate stock sufficiency before consuming.</p>
+     *
+     * @param usedIngredients ingredient amounts to subtract
+     */
     public void consume(Map<Ingredient, Integer> usedIngredients) {
         for (Map.Entry<Ingredient, Integer> entry : usedIngredients.entrySet()) {
             Ingredient ingredient = entry.getKey();
@@ -65,6 +105,11 @@ public class Inventory {
         }
     }
 
+    /**
+     * Formats inventory as user-friendly multi-line text.
+     *
+     * @return formatted stock text for console output
+     */
     public String formatStock() {
         StringBuilder builder = new StringBuilder();
         for (Ingredient ingredient : Ingredient.values()) {
