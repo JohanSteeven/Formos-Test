@@ -1,25 +1,36 @@
 /**
  * Supported drink flavors.
  *
- * <p>Each flavor maps to its fruit ingredient in inventory.</p>
+ * <p>Each flavor maps to its own blended-fruit ingredient and fresh-fruit ingredient.</p>
  */
 public enum DrinkFlavor {
-    STRAWBERRY("Strawberry", Ingredient.STRAWBERRIES),
-    BANANA("Banana", Ingredient.BANANAS),
-    MANGO("Mango", Ingredient.MANGOES);
+    STRAWBERRY("Strawberry", Ingredient.STRAWBERRY_BLEND, Ingredient.STRAWBERRIES, 150),
+    BANANA("Banana", Ingredient.BANANA_BLEND, Ingredient.BANANAS, 180),
+    MANGO("Mango", Ingredient.MANGO_BLEND, Ingredient.MANGOES, 210);
 
     private final String displayName;
+    private final Ingredient blendedFruitIngredient;
     private final Ingredient fruitIngredient;
+    private final int fruitGramsPerDrink;
 
     /**
      * Creates a drink flavor enum value.
      *
      * @param displayName name shown in menu and messages
+     * @param blendedFruitIngredient flavor-specific blended fruit ingredient
      * @param fruitIngredient flavor-specific fruit ingredient
+     * @param fruitGramsPerDrink grams of fruit consumed for one 300 ml drink
      */
-    DrinkFlavor(String displayName, Ingredient fruitIngredient) {
+    DrinkFlavor(
+            String displayName,
+            Ingredient blendedFruitIngredient,
+            Ingredient fruitIngredient,
+            int fruitGramsPerDrink
+    ) {
         this.displayName = displayName;
+        this.blendedFruitIngredient = blendedFruitIngredient;
         this.fruitIngredient = fruitIngredient;
+        this.fruitGramsPerDrink = fruitGramsPerDrink;
     }
 
     /**
@@ -30,10 +41,24 @@ public enum DrinkFlavor {
     }
 
     /**
+     * @return inventory ingredient used as this flavor's blended fruit base
+     */
+    public Ingredient getBlendedFruitIngredient() {
+        return blendedFruitIngredient;
+    }
+
+    /**
      * @return inventory ingredient used as this flavor's fruit
      */
     public Ingredient getFruitIngredient() {
         return fruitIngredient;
+    }
+
+    /**
+     * @return grams of fruit required for one 300 ml drink
+     */
+    public int getFruitGramsPerDrink() {
+        return fruitGramsPerDrink;
     }
 
     /**

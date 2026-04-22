@@ -4,7 +4,9 @@
  * <p>Each ingredient defines a human-readable name and its measurement unit.</p>
  */
 public enum Ingredient {
-    BLENDED_FRUIT_BASE("Blended fruit base", "ml"),
+    STRAWBERRY_BLEND("Strawberry blend", "ml"),
+    BANANA_BLEND("Banana blend", "ml"),
+    MANGO_BLEND("Mango blend", "ml"),
     ICE("Ice", "ml"),
     CONDENSED_MILK("Condensed milk", "ml"),
     SUGAR("Sugar", "g"),

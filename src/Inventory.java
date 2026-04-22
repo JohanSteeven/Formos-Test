@@ -12,7 +12,10 @@ import java.util.Map;
  */
 public class Inventory {
     // Assumption: initial values are reasonable defaults for a small street vendor shift.
-    private static final int INITIAL_BLENDED_FRUIT_BASE_ML = 5_000;
+    // Each flavor has independent blended-fruit stock.
+    private static final int INITIAL_STRAWBERRY_BLEND_ML = 1_800;
+    private static final int INITIAL_BANANA_BLEND_ML = 1_700;
+    private static final int INITIAL_MANGO_BLEND_ML = 1_500;
     private static final int INITIAL_ICE_ML = 3_000;
     private static final int INITIAL_CONDENSED_MILK_ML = 2_000;
     private static final int INITIAL_SUGAR_G = 1_500;
@@ -38,7 +41,9 @@ public class Inventory {
      */
     public static Inventory createWithDefaultStock() {
         Inventory inventory = new Inventory();
-        inventory.stockLevels.put(Ingredient.BLENDED_FRUIT_BASE, INITIAL_BLENDED_FRUIT_BASE_ML);
+        inventory.stockLevels.put(Ingredient.STRAWBERRY_BLEND, INITIAL_STRAWBERRY_BLEND_ML);
+        inventory.stockLevels.put(Ingredient.BANANA_BLEND, INITIAL_BANANA_BLEND_ML);
+        inventory.stockLevels.put(Ingredient.MANGO_BLEND, INITIAL_MANGO_BLEND_ML);
         inventory.stockLevels.put(Ingredient.ICE, INITIAL_ICE_ML);
         inventory.stockLevels.put(Ingredient.CONDENSED_MILK, INITIAL_CONDENSED_MILK_ML);
         inventory.stockLevels.put(Ingredient.SUGAR, INITIAL_SUGAR_G);
